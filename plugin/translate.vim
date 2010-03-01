@@ -23,8 +23,8 @@ def Trans_word(word):
     for i in ox_result:
     	ming_result += i
     ming_result=re.sub('\<br \/\>','\n',ming_result);
-    ming_result=re.sub('\t|exp_exp.*?\>|\<\/div\>','',ming_result)
-    print ming_result
+    ming_result=re.sub('\t|exp_exp.*?\>|\<\/div\>|\r','',ming_result)
+    print ming_result.decode('gb2312').encode(vim.eval('&encoding'))
 Trans_word(vim.eval("expand('<cword>')"))
 EOF
 endfunction
