@@ -13,8 +13,10 @@ python << EOF
 import urllib2,re,vim
 
 def Trans_word(word):
-    text = word
-    url='http://dict.cn/'+text
+    if not word:
+        print 'be sure there is word under cursor'
+        return
+    url='http://dict.cn/'+word
     req = urllib2.Request(url)
     response = urllib2.urlopen(req)
     res=response.read()
@@ -24,7 +26,10 @@ def Trans_word(word):
     	ming_result += i
     ming_result=re.sub('\<br \/\>','\n',ming_result);
     ming_result=re.sub('\t|exp_exp.*?\>|\<\/div\>|\r','',ming_result)
-    print ming_result.decode('gb2312').encode(vim.eval('&encoding'))
+    if ming_result:
+        print ming_result.decode('gb2312').encode(vim.eval('&encoding'))
+    else:
+        print 'no result was found for : \''+word+'\''
 Trans_word(vim.eval("expand('<cword>')"))
 EOF
 endfunction
